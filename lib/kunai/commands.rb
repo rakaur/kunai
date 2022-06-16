@@ -3,6 +3,9 @@ require "optparse"
 options = {}
 
 OptionParser.new do |opts|
+  opts.on("-c", "--config FILE", "Specify configuration file") do |v|
+    options[:config] = v
+  end
   opts.on("-e", "--environment ENV", "Set application enviornment") do |v|
     options[:env] = v
   end
@@ -29,4 +32,4 @@ else
   options[:env] = :development
 end
 
-Kunai.initialize!(options[:env])
+Kunai.initialize! options

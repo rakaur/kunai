@@ -12,21 +12,22 @@ describe Kunai do
   describe "env" do
     it "returns the correct environment upon initialization" do
       subject.stub(:puts, nil) do
-        subject.initialize!(:test)
+        subject.initialize!(env: :test)
         _(subject.env).must_equal :test
       end
     end
   end
 
   describe "initialize!" do
-    it "exists" do
-      _(subject).must_respond_to :initialize!
-    end
-
-    it "returns true" do
+    it "returns true when no errors" do
       subject.stub(:puts, nil) do
-        actual = subject.initialize!(:test)
-        _(actual).must_be_instance_of TrueClass
+        _(subject.initialize!(env: :test, config: "config/ircd.yml")).must_equal true
+      end
+    end
+    it "raises when errors" do
+      subject.stub(:puts, nil) do
+        options = { env: :test, config: "spec/fixtures/bad_ircd.yml" }
+        _ { subject.initialize!(options) }.must_raise StandardError
       end
     end
   end
