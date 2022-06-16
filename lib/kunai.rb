@@ -7,10 +7,10 @@ module Kunai
   VERSION = "0.1.0"
 
   def self.env
-    @@env
+    @@env || :development
   end
 
-  def self.initialize!(env)
+  def self.initialize!(env = :development)
     @@env = env
     puts "kunai #{Kunai::VERSION} running in #{env} mode"
 
