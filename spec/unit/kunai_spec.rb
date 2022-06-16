@@ -10,8 +10,11 @@ describe Kunai do
   end
 
   describe "env" do
-    it "returns the correct environment" do
-      _(subject.env).must_equal :test
+    it "returns the correct environment upon initialization" do
+      subject.stub(:puts, nil) do
+        subject.initialize!(:test)
+        _(subject.env).must_equal :test
+      end
     end
   end
 
@@ -22,8 +25,8 @@ describe Kunai do
 
     it "returns true" do
       subject.stub(:puts, nil) do
-         actual = subject.initialize!(:test)
-         _(actual).must_be_instance_of TrueClass
+        actual = subject.initialize!(:test)
+        _(actual).must_be_instance_of TrueClass
       end
     end
   end

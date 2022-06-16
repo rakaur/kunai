@@ -6,8 +6,10 @@ require "bundler/setup"
 module Kunai
   VERSION = "0.1.0"
 
+  @@env = :development
+
   def self.env
-    @@env || :development
+    @@env
   end
 
   def self.initialize!(env = :development)
