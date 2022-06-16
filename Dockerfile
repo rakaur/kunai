@@ -2,20 +2,21 @@
 FROM ruby:3.1-alpine AS build
 RUN apk update && \
     apk upgrade
-WORKDIR /app
+WORKDIR /kunai
 COPY Gemfile* .
-RUN bundle config set --global without development test
+RUN bundle config set --global without development
 RUN bundle install --jobs=4
 
 FROM ruby:3.1-alpine
-#RUN apk update && \
-#    apk upgrade && \
+RUN apk update && \
+    apk upgrade && \
 #    apk add nothing_yet && \
-#    rm -rf /var/cache/apk/*
-WORKDIR /app
-RUN bundle config set --global without development test
+    rm -rf /var/cache/apk/*
+WORKDIR /kunai
+RUN bundle config set --global without development
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY . .
 
 EXPOSE 6667
-ENTRYPOINT bin/kunai
+CMD ["bin/kunai", "--environment", "production"]
+ENTRYPOINT ["./docker-entrypoint.sh"]

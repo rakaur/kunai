@@ -3,5 +3,6 @@ version: "3.9"
 services:
   ircd:
     build: .
+    command: ["bin/kunai"]
     ports:
       - "6667:6667"
