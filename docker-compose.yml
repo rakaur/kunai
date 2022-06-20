@@ -4,5 +4,6 @@ services:
   ircd:
     build: .
     command: ["bin/kunai"]
+    tty: true
     ports:
       - "6667:6667"
