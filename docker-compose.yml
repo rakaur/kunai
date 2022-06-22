@@ -5,5 +5,7 @@ services:
     build: .
     command: ["bin/kunai"]
     tty: true
+    volumes:
+      - .:/kunai
     ports:
       - "6667:6667"

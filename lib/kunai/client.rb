@@ -21,20 +21,20 @@ module Kunai
         break unless line = @sendq.shift
         @socket.write_nonblock(line + "\r\n")
       rescue IO::WaitWritable
+        # :nocov:
         @sendq.unshift(line)
         break
+        # :nocov:
       end
     end
 
     def read
-      loop do
-        break unless line = @socket.read_nonblock(512)
+      if (line = @socket.read_nonblock(512)).present?
         @recvq << line.chomp
-      rescue IO::WaitReadable
-        break
+        parse
       end
-
-      parse
+    rescue IO::WaitReadable
+      # Do nothing, return to select()
     end
 
     def parse

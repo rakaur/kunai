@@ -39,11 +39,11 @@ module Kunai
       puts e
       raise
     else
-      puts "ok!"
       start
       true
     end
 
+    # :nocov:
     def start
       puts "kunai #{Kunai::VERSION} running in #{config.env} mode"
 
@@ -76,7 +76,8 @@ module Kunai
         @callbacks[:write_ready] = []
 
         @callbacks[:accept_ready] << lambda do |socket|
-          @clients[socket.hash] = Client.new(socket.accept_nonblock)
+          client = socket.accept_nonblock
+          @clients[client.hash] = Client.new(client)
         end
 
         @callbacks[:read_ready] << lambda do |socket|
